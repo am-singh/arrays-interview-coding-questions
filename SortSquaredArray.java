@@ -35,14 +35,15 @@ public class SortSquaredArray {
         int secondPointer = givenArr.length - 1;
         int[] sortedArr = new int[givenArr.length];
 
-        // let both pointer run into each other until they hit
+        // iterate the list from the end
         for (int i = givenArr.length - 1; i > 0; i--) {
+            // checks whether the absolute element in the beginning is greater than the last element
             if (Math.abs(givenArr[firstPointer]) > Math.abs(givenArr[secondPointer])) {
-                sortedArr[i] = givenArr[firstPointer] * givenArr[firstPointer];
-                firstPointer++;
+                sortedArr[i] = givenArr[firstPointer] * givenArr[firstPointer]; 
+                firstPointer++; // moves pointer forward to then compare the next element
             } else {
                 sortedArr[i] = givenArr[secondPointer] * givenArr[secondPointer];
-                secondPointer--;
+                secondPointer--; // moves pointer backward to then compare the next element
             }
         }
         return sortedArr;
