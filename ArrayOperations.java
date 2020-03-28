@@ -1,26 +1,59 @@
 import java.util.Arrays;
+import java.util.HashSet;
 
 /**
- * SortSquaredArray
+ * ArrayOperations
  * 
  */
-public class SortSquaredArray {
+public class ArrayOperations {
 
     public static void main(String[] args) {
         int[] givenArr = new int[] { -5, -3, -1, 0, 3, 5, 7, 8 };
         System.out.println("Given arr: " + Arrays.toString(givenArr));
 
+        System.out.println("---");
+
         int[] sortedArr = sortAndSquareArray(givenArr);
         System.out.println("Sorted arr: " + Arrays.toString(sortedArr));
 
-        int[] duplicateArr = new int[] {2, 1, 3, 5, 3, 2};
-        int firstDuplicate = firstDuplicate(duplicateArr);
-        System.out.println("First duplicate in: " + Arrays.toString(duplicateArr) + " is: " + firstDuplicate);
+        System.out.println("---");
 
+        int[] duplicateArr = new int[] { 2, 1, 3, 5, 3, 2 };
+        System.out.println("Search for first duplicate in: " + Arrays.toString(duplicateArr)); 
+        int firstDuplicate = firstDuplicateBestSolution(duplicateArr);
+        System.out.println("First duplicate is: " + firstDuplicate);
     }
 
     /**
      * <b>Asked by Google</b><br>
+     * <br>
+     * <b> Better solution because time complexity is O(n). But space complexity is
+     * also O(n)</b> <br>
+     * <br>
+     * The given array contains number between 0 and {@code arr.length}. It can also
+     * contain duplicates. This function determines the first found duplicate. If
+     * there are multiple duplicates, it returns the one with the lowest index.
+     * 
+     * @param arr the array which has to be checked
+     * @return the index of the first duplicate. If no duplicate found it returns
+     *         -1;
+     */
+    private static int firstDuplicateLinearSolution(int[] arr) {
+        HashSet<Integer> seen = new HashSet<>();
+        for (int i = 0; i < arr.length; i++) {
+            if (!seen.contains(arr[i])) {
+                seen.add(arr[i]);
+            } else {
+                return arr[i];
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * <b>Asked by Google</b><br>
+     * <br>
+     * <b> Best solution because time and space complexity is O(n).</b> <br>
      * <br>
      * The given array contains number between 0 and {@code arr.length}. It can also
      * contain duplicates. This function determines the first found duplicate. If
@@ -30,7 +63,34 @@ public class SortSquaredArray {
      * @return the index of the first duplicate. If no duplicate found it returns
      *         -1;
      */
-    private static int firstDuplicate(int[] arr) {
+    private static int firstDuplicateBestSolution(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            
+            int lookupElement = Math.abs(arr[i] - 1);
+
+            if (arr[lookupElement] < 0) {
+                return Math.abs(arr[i]);    // if the element is already marked with minus, return it.
+            } else {
+                arr[lookupElement] = (-1) * arr[lookupElement]; // mark the element as visited with a minus
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * <b>Asked by Google</b><br>
+     * <br>
+     * <b> Bad solution because time complexity is O(n^2).</b> <br>
+     * <br>
+     * The given array contains number between 0 and {@code arr.length}. It can also
+     * contain duplicates. This function determines the first found duplicate. If
+     * there are multiple duplicates, it returns the one with the lowest index.
+     * 
+     * @param givenArr the array which has to be checked
+     * @return the index of the first duplicate. If no duplicate found it returns
+     *         -1;
+     */
+    private static int firstDuplicateSquareSolution(int[] arr) {
         int minDuplicateIndex = arr.length;
 
         for (int i = 0; i < arr.length; i++) {
